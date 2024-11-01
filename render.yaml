@@ -1,9 +1,0 @@
-services:
-  # A Docker web service
-  - type: web
-    name: MedGuide-API
-    runtime: python
-    plan: free
-    autoDeploy: false
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn app:app

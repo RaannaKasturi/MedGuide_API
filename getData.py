@@ -10,7 +10,9 @@ HEADERS = {
 }
 
 def get_list(drug_query: str) -> list:
-    """Get the list of drugs from 1mg.com and return the search results as a list of dictionaries.
+
+    """
+    Get the list of drugs from 1mg.com and return the search results as a list of dictionaries.
 
     Args:
         drug_query (str): Drug name to search for.
@@ -22,6 +24,7 @@ def get_list(drug_query: str) -> list:
         >>> get_list("Ciplox")
         [{'id': '159603', 'name': 'Cipcal Cipcal 500 Tablet from Cipla | Source of Calcium & Vitamin D | For Bone, Joint and Muscle Care', 'type': 'otc', 'pack_size': '15 tablets', 'actual_price': '₹104.66', 'image': 'https://onemg.gumlet.io/a_ignore,w_380,h_380,c_fit,q_auto,f_auto/a8730d167e7d4b0cb8bc769936d3151c.jpg', 'prescription_required': False, 'url': 'https://www.1mg.com//otc/cipcal-cipcal-500-tablet-from-cipla-source-of-calcium-vitamin-d-for-bone-joint-and-muscle-care-otc159603'}]
     """
+
     data = {}
     search_results = []
     filter_results = {}
@@ -32,6 +35,7 @@ def get_list(drug_query: str) -> list:
     response = session.get(url)
     if response.json()['is_success'] == True:
         if response.json()['data']['result_found'] == True:
+
             # gets the search results
             for i in response.json()['data']['search_results']:
                 search_data = {}
@@ -43,8 +47,8 @@ def get_list(drug_query: str) -> list:
                 search_data['image'] = i['image']
                 search_data['prescription_required'] = i['rx_required']
                 search_data['url'] = f"https://www.1mg.com/{i['url']}"
-                print(search_data['id'])
                 search_results.append(search_data)
+            
             # gets the filters types & data
             for type in response.json()['data']['filter']['values']:
                 filter_name = type['name']
@@ -56,6 +60,7 @@ def get_list(drug_query: str) -> list:
                     _filter_values['count'] = k['count']
                     filter_values.append(_filter_values)
                 filter_results[filter_name]=filter_values
+            
             # gets the general data
             mix_panel_data = response.json()['data']['mix_panel_data']
             result_details['number_of_results'] = mix_panel_data['number_of_results']
